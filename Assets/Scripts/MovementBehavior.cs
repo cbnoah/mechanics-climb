@@ -5,7 +5,7 @@ public class MovementBehavior : MonoBehaviour
 {
     InputAction moveAction;
     InputAction sprintAction;
-    [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float moveSpeed = 12f;
     private Rigidbody2D _rigidBody;
     private bool falling;
 
@@ -34,10 +34,11 @@ public class MovementBehavior : MonoBehaviour
     {
         Vector2 moveValue = moveAction.ReadValue<Vector2>();
         bool isSprinting = sprintAction.ReadValue<float>() > 0.5f;
-        Vector3 velocity = _rigidBody.linearVelocity;
-        velocity.x = moveValue.x * moveSpeed * (isSprinting ? 2f : 1f);
-        _rigidBody.linearVelocity = velocity;
-        if (velocity.y < 0)
+        // Vector3 velocity = _rigidBody.linearVelocity;
+        // velocity.x = moveValue.x * moveSpeed * (isSprinting ? 2f : 1f) * Time.fixedDeltaTime;
+        // _rigidBody.linearVelocity = velocity;
+        transform.Translate(Vector3.right * moveValue.x * moveSpeed * Time.deltaTime * (isSprinting ? 2f : 1f));
+        if (_rigidBody.linearVelocity.y < 0)
         {
             falling = true;
         }

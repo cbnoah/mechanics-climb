@@ -167,4 +167,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6b9c4e853d4ad247a62a3206336014d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BounceBehaviour
-  bounceForce: 10
+  bounceForce: 15
