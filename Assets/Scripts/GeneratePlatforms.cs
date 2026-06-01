@@ -1,28 +1,68 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GeneratePlatforms : MonoBehaviour
 {
     [SerializeField] private GameObject platformPrefab;
-    [SerializeField] private GameObject camera;
-    private List<GameObject> platforms;
+    [SerializeField] private Camera _camera;
+    [SerializeField] private int _maxPlatforms = 20;
+    private int _checkRefreshValue = 5;
+    private List<GameObject> _platforms = new List<GameObject>();
 
     private void Start()
     {
-        for (var i = 0; i < 10; i++)
+        generateFirstPlatforms();
+        generatePlatforms();
+    }
+
+    private void FixedUpdate()
+    {
+        VerifyIsInCameraVison();
+        if (_platforms.Count < _maxPlatforms - _checkRefreshValue)
         {
-            platforms.Add(Instantiate(platformPrefab, new Vector3(0, i * 2.0f, 0), Quaternion.identity));
+            Debug.Log("Platform count : " + _platforms.Count);
+            generatePlatforms();
         }
     }
 
-    private void verifyIsInCameraVison()
+    private void VerifyIsInCameraVison()
     {
-        foreach (GameObject platform in platforms)
+        Vector3 bottomEdge = _camera.ViewportToWorldPoint(new Vector3(0.5f, 0f, _camera.nearClipPlane));
+        float destroyY = bottomEdge.y - 1f;
+        if (_platforms[_checkRefreshValue].transform.position.y < destroyY)
         {
-            if (platform.transform.position.y < camera.transform.position.y)
+            for (int i = _platforms.Count - 1; i >= 0; i--)
             {
-                
+                if (_platforms[i].transform.position.y < destroyY)
+                {
+                    Destroy(_platforms[i].gameObject);
+                    _platforms.RemoveAt(i);
+                }
             }
+        }
+    }
+
+    private void generateFirstPlatforms()
+    {
+        _platforms.Add(Instantiate(platformPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform));
+    }
+
+    private void generatePlatforms()
+    {
+        float lastY = _platforms.Last().transform.position.y;
+
+        for (var i = _platforms.Count; i <= _maxPlatforms; i++)
+        {
+            lastY += 2.4f;
+            _platforms.Add(Instantiate(
+                platformPrefab,
+                new Vector3(Random.Range(-9f, 9f), lastY, 0),
+                Quaternion.identity,
+                transform
+            ));
         }
     }
 }
