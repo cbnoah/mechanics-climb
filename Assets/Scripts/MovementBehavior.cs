@@ -1,3 +1,4 @@
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,7 @@ public class MovementBehavior : MonoBehaviour
     InputAction moveAction;
     InputAction sprintAction;
     [SerializeField] float moveSpeed = 12f;
+    [SerializeField] AudioClip deathSound;
     private Rigidbody2D _rigidBody;
     private bool falling;
     private Camera _camera;
@@ -66,6 +68,7 @@ public class MovementBehavior : MonoBehaviour
         if (_rigidBody.transform.position.y < destroyY)
         {
             Debug.Log("Under the camera");
+            SoundFXManager.Instance.PlaySound(deathSound, transform, 0.1f);
             SetFalling(false);
             return true;
         }
