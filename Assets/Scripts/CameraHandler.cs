@@ -8,7 +8,7 @@ public class CameraHandler : MonoBehaviour
     {
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         if (transform.position.y < player.transform.position.y)
         {
