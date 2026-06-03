@@ -9,12 +9,19 @@ public class MovementBehavior : MonoBehaviour
     private Rigidbody2D _rigidBody;
     private bool falling;
     [SerializeField] private Camera _camera;
+    private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Sprite idleSprite;
+    [SerializeField] private Sprite fallingSprite;
+    [SerializeField] private Sprite jumpingSprite;
+    
 
     void Awake()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidBody = GetComponent<Rigidbody2D>();
         _camera = Camera.main;
         falling = true;
+        _spriteRenderer.sprite = idleSprite;
     }
 
     void Start()
@@ -42,7 +49,7 @@ public class MovementBehavior : MonoBehaviour
             transform.Translate(Vector3.right * moveValue.x * moveSpeed * Time.deltaTime * (isSprinting ? 2f : 1f));
             if (_rigidBody.linearVelocity.y < 0)
             {
-                falling = true;
+                SetFalling(true);
             }
 
             IsUnderTheCamera();
@@ -57,6 +64,7 @@ public class MovementBehavior : MonoBehaviour
     public void SetFalling(bool value)
     {
         falling = value;
+        _spriteRenderer.sprite = falling ? fallingSprite : jumpingSprite;
     }
 
     private void SetVelocityNull()
