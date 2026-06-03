@@ -1,4 +1,3 @@
-using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,10 +6,9 @@ public class MovementBehavior : MonoBehaviour
     InputAction moveAction;
     InputAction sprintAction;
     [SerializeField] float moveSpeed = 12f;
-    [SerializeField] AudioClip deathSound;
     private Rigidbody2D _rigidBody;
     private bool falling;
-    private Camera _camera;
+    [SerializeField] private Camera _camera;
 
     void Awake()
     {
@@ -21,6 +19,7 @@ public class MovementBehavior : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.OnGameOver.AddListener(SetVelocityNull);
         moveAction = InputSystem.actions.FindAction("Move");
         if (moveAction == null)
         {
@@ -36,18 +35,17 @@ public class MovementBehavior : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!IsUnderTheCamera())
+        if (GameManager.Instance.GetIsPlaying())
         {
             Vector2 moveValue = moveAction.ReadValue<Vector2>();
             bool isSprinting = sprintAction.ReadValue<float>() > 0.5f;
-            // Vector3 velocity = _rigidBody.linearVelocity;
-            // velocity.x = moveValue.x * moveSpeed * (isSprinting ? 2f : 1f) * Time.fixedDeltaTime;
-            // _rigidBody.linearVelocity = velocity;
             transform.Translate(Vector3.right * moveValue.x * moveSpeed * Time.deltaTime * (isSprinting ? 2f : 1f));
             if (_rigidBody.linearVelocity.y < 0)
             {
                 falling = true;
             }
+
+            IsUnderTheCamera();
         }
     }
 
@@ -61,18 +59,20 @@ public class MovementBehavior : MonoBehaviour
         falling = value;
     }
 
-    public bool IsUnderTheCamera()
+    private void SetVelocityNull()
+    {
+        Debug.Log("SetVelocityNull");
+        _rigidBody.linearVelocity = new Vector2(0, 0);
+    }
+
+    public void IsUnderTheCamera()
     {
         Vector3 bottomEdge = _camera.ViewportToWorldPoint(new Vector3(0.5f, 0f, _camera.nearClipPlane));
         float destroyY = bottomEdge.y - 1f;
         if (_rigidBody.transform.position.y < destroyY)
         {
-            Debug.Log("Under the camera");
-            SoundFXManager.Instance.PlaySound(deathSound, transform, 0.1f);
             SetFalling(false);
-            return true;
+            GameManager.Instance.GameOver();
         }
-
-        return false;
     }
 }
