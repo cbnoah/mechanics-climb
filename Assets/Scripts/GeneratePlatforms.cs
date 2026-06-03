@@ -56,7 +56,7 @@ public class GeneratePlatforms : MonoBehaviour
 
         for (var i = _platforms.Count; i <= _maxPlatforms; i++)
         {
-            lastY += 2.4f;
+            lastY += 3f;
             _platforms.Add(Instantiate(
                 platformPrefab,
                 new Vector3(Random.Range(-9f, 9f), lastY, 0),
