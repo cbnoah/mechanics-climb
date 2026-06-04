@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
 
     private bool _isPlaying = true;
 
-    [SerializeField] AudioClip deathSound;
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioSource backgroundMusic;
 
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        NewGame();
     }
 
     // Update is called once per frame
@@ -41,8 +43,14 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         _isPlaying = false;
+        backgroundMusic.Stop();
         SoundFXManager.Instance.PlaySound(deathSound, transform, 0.1f);
-        Debug.Log("GameOver");
         OnGameOver.Invoke();
+    }
+
+    public void NewGame()
+    {
+        _isPlaying = true;
+        backgroundMusic.Play();
     }
 }
