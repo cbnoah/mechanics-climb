@@ -26,6 +26,7 @@ public class ScoreHandler : MonoBehaviour
         camera = Camera.main;
         _gameManager = GameManager.Instance;
         _gameManager.OnGameOver.AddListener(SaveScore);
+        _gameManager.OnGameOver.AddListener(HideScore);
     }
 
     private void Update()
@@ -42,5 +43,17 @@ public class ScoreHandler : MonoBehaviour
         {
             PlayerPrefs.SetInt("HighScore", _score);
         }
+    }
+    
+    private void ShowScore()
+    {
+        scoreText.enabled = true;
+        highScoreText.enabled = true;
+    }    
+    
+    private void HideScore()
+    {
+        scoreText.enabled = false;
+        highScoreText.enabled = false;
     }
 }
