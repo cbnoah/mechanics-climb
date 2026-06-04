@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class GeneratePlatforms : MonoBehaviour
 {
     [SerializeField] private GameObject platformPrefab;
+    [SerializeField] private GameObject springPlaformPrefab;
     [SerializeField] private Camera _camera;
     [SerializeField] private int _maxPlatforms = 20;
     private int _checkRefreshValue = 5;
@@ -50,19 +51,29 @@ public class GeneratePlatforms : MonoBehaviour
         _platforms.Add(Instantiate(platformPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform));
     }
 
+    private void AddSpringPlatform(float lastY)
+    {
+        _platforms.Add(Instantiate(springPlaformPrefab, new Vector3(Random.Range(-9f, 9f), lastY, 0),
+            Quaternion.identity, transform));
+    }
+
     private void generatePlatforms()
     {
         float lastY = _platforms.Last().transform.position.y;
 
         for (var i = _platforms.Count; i <= _maxPlatforms; i++)
         {
-            lastY += 3f;
+            lastY += 3.8f;
             _platforms.Add(Instantiate(
                 platformPrefab,
                 new Vector3(Random.Range(-9f, 9f), lastY, 0),
                 Quaternion.identity,
                 transform
-            ));
+            )); 
+            if (Random.Range(0, 11) == 10)
+            {
+                AddSpringPlatform(lastY);
+            }
         }
     }
 }
