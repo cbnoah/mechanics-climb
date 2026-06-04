@@ -8,6 +8,7 @@ public class GameOverUIHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameOverText;
     [SerializeField] private Image background;
     [SerializeField] private GameObject homeButton;
+    [SerializeField] private Image platformImage;
     private GameManager _gameManager;
 
     void Start()
@@ -16,6 +17,7 @@ public class GameOverUIHandler : MonoBehaviour
         _gameManager.OnGameOver.AddListener(GameOver);
         gameOverText.enabled = false;
         background.enabled = false;
+        platformImage.enabled = false;
         homeButton.SetActive(false);
     }
 
@@ -23,6 +25,7 @@ public class GameOverUIHandler : MonoBehaviour
     {
         gameOverText.enabled = true;
         background.enabled = true;
+        platformImage.enabled = true;
         homeButton.SetActive(true);
     }
 }
