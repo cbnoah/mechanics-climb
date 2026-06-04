@@ -13,7 +13,9 @@ public class MovementBehavior : MonoBehaviour
     [SerializeField] private Sprite idleSprite;
     [SerializeField] private Sprite fallingSprite;
     [SerializeField] private Sprite jumpingSprite;
-    
+    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip springSound;
+
 
     void Awake()
     {
@@ -46,7 +48,7 @@ public class MovementBehavior : MonoBehaviour
         {
             Vector2 moveValue = moveAction.ReadValue<Vector2>();
             bool isSprinting = sprintAction.ReadValue<float>() > 0.5f;
-            transform.Translate(Vector3.right * moveValue.x * moveSpeed * Time.deltaTime * (isSprinting ? 2f : 1f));
+            transform.Translate(Vector3.right * (moveValue.x * moveSpeed * Time.deltaTime * (isSprinting ? 2f : 1f)));
             if (_rigidBody.linearVelocity.y < 0)
             {
                 SetFalling(true);
