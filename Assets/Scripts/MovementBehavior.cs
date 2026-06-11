@@ -63,8 +63,25 @@ public class MovementBehavior : MonoBehaviour
         return falling;
     }
 
-    public void SetFalling(bool value)
+    private void SpecialSound(string type)
+    { 
+        Debug.Log("cette plateforme est de type : " + type);
+        if (type.Equals("SpringPlateforme(Clone)"))
+        {
+            Debug.Log("Spring");
+            SoundFXManager.Instance.PlaySound(springSound, transform, 0.1f);
+        }
+    }
+
+    public void SetFalling(bool value, string type = "")
     {
+        if (falling && !value)
+        {
+            if (!type.Equals("Plateforme(Clone)")) SpecialSound(type);
+
+            SoundFXManager.Instance.PlaySound(jumpSound, transform, 0.1f);
+        }
+
         falling = value;
         _spriteRenderer.sprite = falling ? fallingSprite : jumpingSprite;
     }
