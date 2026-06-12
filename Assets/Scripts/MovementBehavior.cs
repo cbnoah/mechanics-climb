@@ -65,10 +65,8 @@ public class MovementBehavior : MonoBehaviour
 
     private void SpecialSound(string type)
     { 
-        Debug.Log("cette plateforme est de type : " + type);
-        if (type.Equals("SpringPlateforme(Clone)"))
+        if (type.Contains("SpringPlateforme(Clone)"))
         {
-            Debug.Log("Spring");
             SoundFXManager.Instance.PlaySound(springSound, transform, 0.1f);
         }
     }
