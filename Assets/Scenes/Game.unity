@@ -1781,6 +1781,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4859894774266124563, guid: b5c7d55d703b98242ae2755223e0491c, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4859894774266124563, guid: b5c7d55d703b98242ae2755223e0491c, type: 3}
       propertyPath: m_Pitch
       value: 0.8
       objectReference: {fileID: 0}
@@ -2430,6 +2434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GeneratePlatforms
   platformPrefab: {fileID: 9061881838284688848, guid: f65e21b4d86488e4c949570316a31dce, type: 3}
   springPlaformPrefab: {fileID: 9061881838284688848, guid: 4460904e31e8f5246ab0a6245fb1901a, type: 3}
+  breakablePlatformPrefab: {fileID: 9061881838284688848, guid: 48517c12ea5500847af10ee6f7a8fada, type: 3}
   _camera: {fileID: 963194227}
   _maxPlatforms: 20
 --- !u!82 &1890695932 stripped
