@@ -8,6 +8,7 @@ public class GeneratePlatforms : MonoBehaviour
 {
     [SerializeField] private GameObject platformPrefab;
     [SerializeField] private GameObject springPlaformPrefab;
+    [SerializeField] private GameObject breakablePlatformPrefab;
     [SerializeField] private Camera _camera;
     [SerializeField] private int _maxPlatforms = 20;
     private int _checkRefreshValue = 5;
@@ -64,13 +65,15 @@ public class GeneratePlatforms : MonoBehaviour
         for (var i = _platforms.Count; i <= _maxPlatforms; i++)
         {
             lastY += 3.8f;
+            int random = Random.Range(0, 21);
+
             _platforms.Add(Instantiate(
-                platformPrefab,
+                random % 3 == 0 ? breakablePlatformPrefab : platformPrefab,
                 new Vector3(Random.Range(-9f, 9f), lastY, 0),
                 Quaternion.identity,
                 transform
-            )); 
-            if (Random.Range(0, 11) == 10)
+            ));
+            if (random >= 18)
             {
                 AddSpringPlatform(lastY);
             }
